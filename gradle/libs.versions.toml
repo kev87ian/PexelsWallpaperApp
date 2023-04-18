@@ -74,6 +74,7 @@ com-android-application = { id = "com.android.application", version.ref = "com-a
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
 dagger-hilt = {id = "com.google.dagger.hilt.android", version.ref= "dagger"}
+#com.google.android = {id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "2.0.1"}
 
 [bundles]
 
