@@ -17,6 +17,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,17 +31,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().apply {
-            addInterceptor(
-                Interceptor { chain ->
-                    val builder = chain.request().newBuilder()
-                    builder.addHeader("Authorization", BuildConfig.API_KEY)
-                    return@Interceptor chain.proceed(builder.build())
-                }
-            )
-        }.build()
+    fun providesOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+/*            .retryOnConnectionFailure(true)*/
+            .build()
     }
+
 
     @Provides
     @Singleton

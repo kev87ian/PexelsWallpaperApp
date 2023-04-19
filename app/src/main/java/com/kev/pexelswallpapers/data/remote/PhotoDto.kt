@@ -1,6 +1,5 @@
 package com.kev.pexelswallpapers.data.remote
 
-
 import com.google.gson.annotations.SerializedName
 
 data class PhotoDto(
@@ -25,5 +24,9 @@ data class PhotoDto(
     @SerializedName("url")
     val url: String,
     @SerializedName("width")
-    val width: Int
+    val width: Int,
+    @SerializedName("page")
+    val page: Int,
+    @SerializedName("per_page")
+    val perPage: Int,
 )

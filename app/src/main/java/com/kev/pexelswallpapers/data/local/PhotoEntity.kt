@@ -6,7 +6,7 @@ import com.kev.pexelswallpapers.domain.model.Src
 
 @Entity(tableName = "photos")
 data class PhotoEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     val src: Src,
     val url: String
