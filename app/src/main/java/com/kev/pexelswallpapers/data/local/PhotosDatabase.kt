@@ -1,15 +1,17 @@
 package com.kev.pexelswallpapers.data.local
 
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.kev.pexelswallpapers.data.local.dao.PhotosDao
+import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.PhotosRemoteKey
 
 @Database(
-    entities = [PhotoEntity::class],
-    version = 1)
-@TypeConverters(Converters::class)
-abstract class PhotosDatabase : RoomDatabase() {
+    entities = [Photo::class, PhotosRemoteKey::class],
+    version = 1
+)
+abstract class PhotosDatabase : RoomDatabase(){
 
-    abstract val photosDao : PhotosDao
+    abstract fun remoteKeysDao(): PhotosRemoteKeyDao
+    abstract fun imagesDao() : PhotosDao
 }

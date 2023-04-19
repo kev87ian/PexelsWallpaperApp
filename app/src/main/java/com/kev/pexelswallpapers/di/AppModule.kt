@@ -2,7 +2,6 @@ package com.kev.pexelswallpapers.di
 
 import android.content.Context
 import androidx.room.Room
-import com.kev.pexelswallpapers.BuildConfig
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.remote.ImagesApiService
 import com.kev.pexelswallpapers.util.Constants
@@ -12,7 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -36,7 +34,7 @@ object AppModule {
             .addInterceptor(loggingInterceptor)
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
-/*            .retryOnConnectionFailure(true)*/
+            /*            .retryOnConnectionFailure(true)*/
             .build()
     }
 
@@ -55,9 +53,10 @@ object AppModule {
     fun createsApiService(retrofit: Retrofit): ImagesApiService {
         return retrofit.create(ImagesApiService::class.java)
     }
+
     @Provides
     @Singleton
-    fun providesDatabase(@ApplicationContext context: Context) : PhotosDatabase{
+    fun providesDatabase(@ApplicationContext context: Context) : PhotosDatabase {
         return Room.databaseBuilder(
             context,
             PhotosDatabase::class.java,
