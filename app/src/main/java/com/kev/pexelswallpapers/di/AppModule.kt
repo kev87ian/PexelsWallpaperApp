@@ -7,12 +7,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -26,10 +26,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient() : OkHttpClient{
+    fun providesOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(
-                Interceptor {chain ->
+                Interceptor { chain ->
                     val builder = chain.request().newBuilder()
                     builder.addHeader("Authorization", BuildConfig.API_KEY)
                     return@Interceptor chain.proceed(builder.build())
@@ -49,8 +49,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun createsApiService(retrofit: Retrofit) : ImagesApiService{
+    fun createsApiService(retrofit: Retrofit): ImagesApiService {
         return retrofit.create(ImagesApiService::class.java)
     }
-
 }
