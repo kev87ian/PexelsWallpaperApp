@@ -1,11 +1,15 @@
 package com.kev.pexelswallpapers.di
 
+import android.content.Context
+import androidx.room.Room
 import com.kev.pexelswallpapers.BuildConfig
+import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.remote.ImagesApiService
 import com.kev.pexelswallpapers.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import okhttp3.Interceptor
@@ -51,5 +55,14 @@ object AppModule {
     @Provides
     fun createsApiService(retrofit: Retrofit): ImagesApiService {
         return retrofit.create(ImagesApiService::class.java)
+    }
+    @Provides
+    @Singleton
+    fun providesDatabase(@ApplicationContext context: Context) : PhotosDatabase{
+        return Room.databaseBuilder(
+            context,
+            PhotosDatabase::class.java,
+            "photos_db"
+        ).build()
     }
 }
