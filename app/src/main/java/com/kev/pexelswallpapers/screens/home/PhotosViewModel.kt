@@ -1,21 +1,18 @@
-package com.kev.pexelswallpapers.viewmodel
+package com.kev.pexelswallpapers.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.repository.PhotosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ImagesViewModel @Inject constructor(
-    pager: Pager<Int, Photo>
+class PhotosViewModel @Inject constructor(
+    repository: PhotosRepository
 ): ViewModel(){
 
-    val imagesPagingFlow = pager
-        .flow
-        .cachedIn(viewModelScope)
-
-
+    val getAllImages = repository.getAllImages()
 }

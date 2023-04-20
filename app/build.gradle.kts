@@ -102,4 +102,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.paging)
 
+    //navigation
+    implementation (libs.androidx.navigation.compose)
+
 }

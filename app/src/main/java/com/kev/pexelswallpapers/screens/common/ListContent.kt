@@ -2,10 +2,13 @@ package com.kev.pexelswallpapers.screens.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,10 +22,31 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kev.pexelswallpapers.R
 import com.kev.pexelswallpapers.model.Photo
+
+@Composable
+fun ListContent(
+    items: LazyPagingItems<Photo>
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(all = 12.dp)
+    ) {
+        items(
+            items = items,
+            key = { photo ->
+                photo.id
+            }
+        ) { photo ->
+            photo?.let { PhotoItem(photo = photo) }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,15 +56,16 @@ fun PhotoItem(
     Card(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(350.dp),
         shape = RoundedCornerShape(12.dp),
         onClick = {
         }
     ) {
-        Box(modifier = Modifier.height(300.dp)) {
+        Box(modifier = Modifier.fillMaxHeight()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(photo)
+                    .data(photo.src.portrait)
                     .placeholder(R.drawable.ic_launcher_background)
                     .crossfade(1000)
                     .build(),
