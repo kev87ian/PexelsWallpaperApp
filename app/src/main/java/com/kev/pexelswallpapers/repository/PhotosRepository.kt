@@ -1,4 +1,4 @@
-package com.kev.pexelswallpapers.data.repository
+package com.kev.pexelswallpapers.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager

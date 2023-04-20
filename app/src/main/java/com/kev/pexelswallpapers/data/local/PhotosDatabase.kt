@@ -8,7 +8,8 @@ import com.kev.pexelswallpapers.model.PhotosRemoteKey
 
 @Database(
     entities = [Photo::class, PhotosRemoteKey::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class PhotosDatabase : RoomDatabase(){
 

@@ -1,4 +1,4 @@
-package com.kev.pexelswallpapers.ui.image_list
+package com.kev.pexelswallpapers.screens.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,48 +15,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kev.pexelswallpapers.R
 import com.kev.pexelswallpapers.model.Photo
-import com.kev.pexelswallpapers.viewmodel.ImagesViewModel
-
-@Composable
-fun ImageListScreenComposable(
-    viewModel: ImagesViewModel = hiltViewModel()
-) {
-    val result = viewModel.imagesPagingFlow.collectAsStateWithLifecycle()}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCardComposable(
-    photo: Photo,
-    navController: NavController
+fun PhotoItem(
+    photo: Photo
 ) {
     Card(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(15.dp),
+        shape = RoundedCornerShape(12.dp),
         onClick = {
         }
     ) {
         Box(modifier = Modifier.height(300.dp)) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(photo.src.portrait)
-                    .crossfade(true)
+                    .data(photo)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .crossfade(1000)
                     .build(),
-                contentDescription = "",
-                contentScale = ContentScale.Crop
-
+                contentDescription = photo.alt
             )
 
             Box(
@@ -80,7 +68,7 @@ fun ImageCardComposable(
                 contentAlignment = Alignment.BottomStart
             ) {
                 Text(
-                    text = photo.alt ?: "No description provided",
+                    text = photo.alt,
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 16.sp
