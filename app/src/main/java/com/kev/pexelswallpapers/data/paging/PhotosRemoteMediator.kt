@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
-import com.kev.pexelswallpapers.data.remote.ImagesApiService
+import com.kev.pexelswallpapers.data.remote.PhotosApiService
 import com.kev.pexelswallpapers.model.Photo
 import com.kev.pexelswallpapers.model.PhotosRemoteKey
 import okio.IOException
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @ExperimentalPagingApi
-class ImagesRemoteMediator @Inject constructor(
-    private val apiService: ImagesApiService,
+class PhotosRemoteMediator @Inject constructor(
+    private val apiService: PhotosApiService,
     private val photosDatabase: PhotosDatabase
 ) : RemoteMediator<Int, Photo>() {
 

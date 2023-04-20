@@ -3,7 +3,7 @@ package com.kev.pexelswallpapers.di
 import android.content.Context
 import androidx.room.Room
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
-import com.kev.pexelswallpapers.data.remote.ImagesApiService
+import com.kev.pexelswallpapers.data.remote.PhotosApiService
 import com.kev.pexelswallpapers.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -50,8 +50,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun createsApiService(retrofit: Retrofit): ImagesApiService {
-        return retrofit.create(ImagesApiService::class.java)
+    fun createsApiService(retrofit: Retrofit): PhotosApiService {
+        return retrofit.create(PhotosApiService::class.java)
     }
 
     @Provides

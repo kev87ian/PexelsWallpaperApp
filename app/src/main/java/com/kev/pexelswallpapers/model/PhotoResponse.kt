@@ -3,7 +3,7 @@ package com.kev.pexelswallpapers.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ImageResponse(
+data class PhotoResponse(
     @SerializedName("next_page")
     val nextPage: String,
     @SerializedName("page")
