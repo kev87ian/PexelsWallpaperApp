@@ -23,9 +23,9 @@ class PhotosViewModel @Inject constructor(
     fun getCuratedImages(): Flow<PagingData<Photo>> =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 40,
                 prefetchDistance = 10,
-                initialLoadSize = 20
+                initialLoadSize = 25
             ),
             pagingSourceFactory = {
                 database.imagesDao().getAllImages()

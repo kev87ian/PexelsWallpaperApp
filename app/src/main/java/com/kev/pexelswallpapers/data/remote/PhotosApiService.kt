@@ -12,7 +12,7 @@ interface PhotosApiService {
     @GET("curated")
     suspend fun getImages(
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int = 20
+        @Query("per_page") perPage: Int = 40
     ): PhotoResponse
 
     @Headers("AuthorizationL ${BuildConfig.API_KEY}")
