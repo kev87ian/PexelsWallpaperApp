@@ -1,7 +1,6 @@
 package com.kev.pexelswallpapers.di
 
 import android.content.Context
-import android.provider.ContactsContract.Contacts.Photo
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -9,6 +8,7 @@ import androidx.room.Room
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.paging.PhotosRemoteMediator
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
+import com.kev.pexelswallpapers.model.Photo
 import com.kev.pexelswallpapers.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -45,7 +45,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient) = Retrofit
+    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit
         .Builder()
         .baseUrl(Constants.BASE_URL)
         .client(okHttpClient)
@@ -71,11 +71,11 @@ object AppModule {
     @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
-    fun providesPhotosPager(database: PhotosDatabase, apiService: PhotosApiService): Pager<Int, com.kev.pexelswallpapers.model.Photo> {
+    fun providesPhotosPager(database: PhotosDatabase, apiService: PhotosApiService): Pager<Int, Photo> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = PhotosRemoteMediator(apiService, database),
-            pagingSourceFactory = { database.imagesDao().pagingSource() }
+            pagingSourceFactory = { database.imagesDao().getAllImages() }
         )
     }
 }

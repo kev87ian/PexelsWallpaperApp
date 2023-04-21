@@ -1,19 +1,38 @@
 package com.kev.pexelswallpapers.screens.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
-import androidx.paging.cachedIn
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.kev.pexelswallpapers.data.local.PhotosDatabase
+import com.kev.pexelswallpapers.data.paging.PhotosRemoteMediator
+import com.kev.pexelswallpapers.data.remote.PhotosApiService
 import com.kev.pexelswallpapers.model.Photo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 @HiltViewModel
 class PhotosViewModel @Inject constructor(
-    pager: Pager<Int, Photo>
+    private val apiService: PhotosApiService,
+    private val database: PhotosDatabase
 ) : ViewModel() {
 
-    val imagesPagingFlow = pager
-        .flow
-        .cachedIn(viewModelScope)
+    @OptIn(ExperimentalPagingApi::class)
+    fun getCuratedImages(): Flow<PagingData<Photo>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                prefetchDistance = 10,
+                initialLoadSize = 20
+            ),
+            pagingSourceFactory = {
+                database.imagesDao().getAllImages()
+            },
+            remoteMediator = PhotosRemoteMediator(
+                apiService = apiService,
+                photosDatabase = database
+            )
+        ).flow
 }

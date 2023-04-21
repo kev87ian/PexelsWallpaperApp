@@ -18,7 +18,7 @@ class PhotosRepository @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     fun getAllImages(): Flow<PagingData<Photo>> {
-        val pagingSource = { photosDatabase.imagesDao().pagingSource() }
+        val pagingSource = { photosDatabase.imagesDao().getAllImages() }
         return Pager(
             config = PagingConfig(pageSize = 30),
             remoteMediator = PhotosRemoteMediator(

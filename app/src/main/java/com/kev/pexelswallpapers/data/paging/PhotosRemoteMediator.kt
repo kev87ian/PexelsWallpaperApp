@@ -9,12 +9,11 @@ import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
 import com.kev.pexelswallpapers.model.Photo
 import com.kev.pexelswallpapers.model.PhotosRemoteKey
-import kotlinx.coroutines.delay
 import javax.inject.Inject
+import kotlinx.coroutines.delay
 import okio.IOException
 import retrofit2.HttpException
 
-@Suppress("IMPLICIT_CAST_TO_ANY")
 @ExperimentalPagingApi
 class PhotosRemoteMediator @Inject constructor(
     private val apiService: PhotosApiService,

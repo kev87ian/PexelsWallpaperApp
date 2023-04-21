@@ -8,19 +8,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.kev.pexelswallpapers.navigation.Screen
-import com.kev.pexelswallpapers.screens.common.ListContent
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
-    viewModel: PhotosViewModel = hiltViewModel()
+    navController: NavHostController
+
 ) {
-    val pagedImages = viewModel.imagesPagingFlow.collectAsLazyPagingItems()
-
-
-
+    val viewModel = hiltViewModel<PhotosViewModel>()
+    val photos = viewModel.getCuratedImages().collectAsLazyPagingItems()
     Scaffold(
         topBar = {
             HomeTopBar(onSearchClick = {
@@ -28,9 +25,7 @@ fun HomeScreen(
             })
         },
         content = {
-
-                ListContent(items = pagedImages)
-
+            HomeScreenListContent(items = photos)
         }
     )
 }
