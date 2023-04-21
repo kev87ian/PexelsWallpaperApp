@@ -17,7 +17,9 @@ fun HomeScreen(
     navController: NavHostController,
     viewModel: PhotosViewModel = hiltViewModel()
 ) {
-    val getAllImages = viewModel.getAllImages.collectAsLazyPagingItems()
+    val pagedImages = viewModel.imagesPagingFlow.collectAsLazyPagingItems()
+
+
 
     Scaffold(
         topBar = {
@@ -26,7 +28,9 @@ fun HomeScreen(
             })
         },
         content = {
-            ListContent(items = getAllImages)
+
+                ListContent(items = pagedImages)
+
         }
     )
 }

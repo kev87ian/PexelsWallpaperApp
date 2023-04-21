@@ -9,9 +9,10 @@ import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
 import com.kev.pexelswallpapers.model.Photo
 import com.kev.pexelswallpapers.model.PhotosRemoteKey
+import kotlinx.coroutines.delay
+import javax.inject.Inject
 import okio.IOException
 import retrofit2.HttpException
-import javax.inject.Inject
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @ExperimentalPagingApi
@@ -50,18 +51,19 @@ class PhotosRemoteMediator @Inject constructor(
                 }
             }
 
+            delay(3000L)
             val response = apiService.getImages(page = currentPage)
             val endOfPaginationReached = response.photos.isEmpty()
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
             photosDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH){
+                if (loadType == LoadType.REFRESH) {
                     imagesDao.deleteAllImages()
                     remoteKeysDao.deleteAllRemoteKeys()
                 }
 
-                val keys = response.photos.map {photo ->
+                val keys = response.photos.map { photo ->
                     PhotosRemoteKey(
                         id = photo.id,
                         prevPage = prevPage,
@@ -74,7 +76,6 @@ class PhotosRemoteMediator @Inject constructor(
             }
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-
         } catch (e: IOException) {
             e.printStackTrace()
             return MediatorResult.Error(e)

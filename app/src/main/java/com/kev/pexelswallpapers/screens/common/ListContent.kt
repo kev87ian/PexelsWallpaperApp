@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -34,7 +35,8 @@ fun ListContent(
     items: LazyPagingItems<Photo>
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .padding(top = 16.dp),
         contentPadding = PaddingValues(all = 12.dp)
     ) {
         items(
@@ -57,18 +59,19 @@ fun PhotoItem(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
-            .height(350.dp),
+            .height(400.dp),
         shape = RoundedCornerShape(12.dp),
         onClick = {
         }
     ) {
-        Box(modifier = Modifier.fillMaxHeight()) {
+        Box(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(photo.src.portrait)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .data(photo.src.large2x)
+                    .placeholder(R.drawable.ic_placeholder)
                     .crossfade(1000)
                     .build(),
+                contentScale = ContentScale.FillBounds,
                 contentDescription = photo.alt
             )
 
@@ -93,7 +96,7 @@ fun PhotoItem(
                 contentAlignment = Alignment.BottomStart
             ) {
                 Text(
-                    text = photo.alt,
+                    text = photo.photographer,
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 16.sp
