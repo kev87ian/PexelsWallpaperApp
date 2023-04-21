@@ -1,4 +1,4 @@
-package com.kev.pexelswallpapers.model
+package com.kev.pexelswallpapers.model.photos_list
 
 
 import com.google.gson.annotations.SerializedName

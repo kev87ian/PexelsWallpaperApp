@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
-import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.photos_list.Photo
 import com.kev.pexelswallpapers.model.PhotosRemoteKey
 import javax.inject.Inject
 import kotlinx.coroutines.delay

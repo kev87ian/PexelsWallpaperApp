@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.paging.PhotosRemoteMediator
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
-import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.photos_list.Photo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

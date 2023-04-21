@@ -8,7 +8,7 @@ import androidx.room.Room
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.paging.PhotosRemoteMediator
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
-import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.photos_list.Photo
 import com.kev.pexelswallpapers.util.Constants
 import dagger.Module
 import dagger.Provides

@@ -2,7 +2,7 @@ package com.kev.pexelswallpapers.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.photos_list.Photo
 import com.kev.pexelswallpapers.model.PhotosRemoteKey
 
 @Database(

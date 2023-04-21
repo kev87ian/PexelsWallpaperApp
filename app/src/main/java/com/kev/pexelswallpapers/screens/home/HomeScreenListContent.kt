@@ -41,7 +41,7 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kev.pexelswallpapers.R
-import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.photos_list.Photo
 
 @Composable
 fun HomeScreenListContent(

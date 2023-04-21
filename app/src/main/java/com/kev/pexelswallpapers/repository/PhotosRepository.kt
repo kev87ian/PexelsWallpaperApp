@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.paging.PhotosRemoteMediator
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
-import com.kev.pexelswallpapers.model.Photo
+import com.kev.pexelswallpapers.model.photos_list.Photo
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
