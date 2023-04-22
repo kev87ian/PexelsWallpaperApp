@@ -39,7 +39,7 @@ object AppModule {
             .addInterceptor(loggingInterceptor)
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
-            /*            .retryOnConnectionFailure(true)*/
+            .retryOnConnectionFailure(true)
             .build()
     }
 
@@ -71,7 +71,10 @@ object AppModule {
     @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
-    fun providesPhotosPager(database: PhotosDatabase, apiService: PhotosApiService): Pager<Int, Photo> {
+    fun providesPhotosPager(
+        database: PhotosDatabase,
+        apiService: PhotosApiService
+    ): Pager<Int, Photo> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             remoteMediator = PhotosRemoteMediator(apiService, database),

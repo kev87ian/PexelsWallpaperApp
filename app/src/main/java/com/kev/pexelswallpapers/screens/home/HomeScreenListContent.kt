@@ -78,11 +78,14 @@ fun HomeScreenListContent(
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(8.dp),
+                            .padding(top = 20.dp),
                         text = "Fetching Data"
                     )
 
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
                 }
             }
 
@@ -93,7 +96,10 @@ fun HomeScreenListContent(
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 12.dp)
+                    )
                 }
             }
 

@@ -50,7 +50,7 @@ class PhotosRemoteMediator @Inject constructor(
                 }
             }
 
-            delay(3000L)
+            delay(5000L)
             val response = apiService.getImages(page = currentPage)
             val endOfPaginationReached = response.photos.isEmpty()
             val prevPage = if (currentPage == 1) null else currentPage - 1

@@ -21,9 +21,11 @@ class PhotosRepository @Inject constructor(
                 is IOException -> return Resource.Error(
                     "Ensure you have an active internet connection"
                 )
+
                 is HttpException -> return Resource.Error(
                     "We're unable to reach servers. Please retry."
                 )
+
                 else -> return Resource.Error(e.localizedMessage ?: "An unknown error occurred.")
             }
         }

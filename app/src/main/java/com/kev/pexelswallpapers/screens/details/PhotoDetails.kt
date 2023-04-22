@@ -77,7 +77,7 @@ fun ImageDetailsScreen(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 ) {
                     Button(onClick = {
-                        downloadImage(context, photo.src.portrait)
+                        downloadImage(context, photo.src.original)
                     }) {
                         Text(text = "Download Image")
                     }
@@ -91,9 +91,8 @@ fun ImageDetailsScreen(
                                 Toast.makeText(context, "Wallpaper changed", Toast.LENGTH_SHORT)
                                     .show()
                             } catch (e: Exception) {
-
-                                TODO("Handle wallpaper errors")
                                 e.printStackTrace()
+                                TODO("Handle wallpaper errors")
                             }
                         }
                     }) {
@@ -117,8 +116,8 @@ fun ImageDetailsScreen(
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } catch (e: Exception) {
-                                TODO("Handle wallpaper errors")
                                 e.printStackTrace()
+                                TODO("Handle wallpaper errors")
                             }
                         }
                     }) {
