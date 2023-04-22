@@ -24,6 +24,7 @@ class SearchPhotoViewModel @Inject constructor(
     )
     val searchPhotosStateFlow: StateFlow<Resource<PhotoSearchResponse>> = _searchPhotosStateflow
 
+
     fun updateSearchQuery(query: String) {
         _searchQuery.value = query
     }
