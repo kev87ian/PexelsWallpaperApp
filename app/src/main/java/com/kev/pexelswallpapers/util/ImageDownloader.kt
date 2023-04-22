@@ -17,7 +17,7 @@ class ImageDownloader(
                 DownloadManager.Request.NETWORK_WIFI.and(DownloadManager.Request.NETWORK_MOBILE)
             )
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setTitle("image")
+            .setTitle("Image")
             .setDestinationInExternalPublicDir(
                 Environment.DIRECTORY_DOWNLOADS,
                 "image.jpeg"

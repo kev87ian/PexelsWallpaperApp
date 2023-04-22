@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -34,18 +35,22 @@ fun ImageDetailsScreen(
     photo: PhotoDetailsResponse
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()
     ) {
         Box(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
             val context = LocalContext.current
             AsyncImage(
                 model = ImageRequest.Builder(context)
-                    .data(photo.src.large2x)
+                    .data(photo.src.portrait)
                     .crossfade(true)
                     .build(),
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.FillBounds,
                 contentDescription = photo.alt,
                 modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .clipToBounds()
+                    .align(Alignment.Center)
 
             )
 
