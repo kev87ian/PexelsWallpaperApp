@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -18,10 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kev.pexelswallpapers.model.photo_details.PhotoDetailsResponse
@@ -35,14 +36,17 @@ fun ImageDetailsScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Box(modifier = Modifier.fillMaxHeight()) {
+        Box(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
             val context = LocalContext.current
             AsyncImage(
                 model = ImageRequest.Builder(context)
-                    .data(photo.src.large)
+                    .data(photo.src.large2x)
                     .crossfade(true)
                     .build(),
-                contentDescription = photo.alt
+                contentScale = ContentScale.Fit,
+                contentDescription = photo.alt,
+                modifier = Modifier
+
             )
 
             Box(
@@ -55,7 +59,7 @@ fun ImageDetailsScreen(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 ) {
                     Button(onClick = {
-                        downloadImage(context, photo.src.large)
+                        downloadImage(context, photo.src.portrait)
                     }) {
                         Text(text = "Download Image")
                     }
@@ -119,6 +123,7 @@ fun PhotoDetailsScreen(
             val photo = (state.value as Resource.Success<PhotoDetailsResponse>).data
             ImageDetailsScreen(photo = photo)
         }
+
     }
 }
 
