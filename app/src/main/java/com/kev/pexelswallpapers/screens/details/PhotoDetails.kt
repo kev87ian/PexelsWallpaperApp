@@ -33,10 +33,10 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.kev.pexelswallpapers.R
 import com.kev.pexelswallpapers.model.photo_details.PhotoDetailsResponse
 import com.kev.pexelswallpapers.util.ImageDownloader
 import com.kev.pexelswallpapers.util.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,7 +46,6 @@ fun ImageDetailsScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-
     Column(
         modifier = Modifier.fillMaxWidth().fillMaxHeight()
     ) {
@@ -54,6 +53,7 @@ fun ImageDetailsScreen(
             AsyncImage(
                 model = ImageRequest.Builder(context)
                     .data(photo.src.portrait)
+                    .placeholder(R.drawable.ic_placeholder)
                     .crossfade(true)
                     .build(),
                 contentScale = ContentScale.FillBounds,
@@ -83,7 +83,7 @@ fun ImageDetailsScreen(
                     }
 
                     Button(onClick = {
-                        coroutineScope.launch(Dispatchers.IO) {
+                        coroutineScope.launch {
                             val bitmap = getBitmapFromUrl(context, photo.src.portrait)
                             val wallpaperManager = WallpaperManager.getInstance(context)
                             try {
@@ -91,6 +91,8 @@ fun ImageDetailsScreen(
                                 Toast.makeText(context, "Wallpaper changed", Toast.LENGTH_SHORT)
                                     .show()
                             } catch (e: Exception) {
+
+                                TODO("Handle wallpaper errors")
                                 e.printStackTrace()
                             }
                         }
@@ -99,7 +101,7 @@ fun ImageDetailsScreen(
                     }
 
                     Button(onClick = {
-                        coroutineScope.launch(Dispatchers.IO) {
+                        coroutineScope.launch {
                             val bitmap = getBitmapFromUrl(context, photo.src.portrait)
                             val wallpaperManager = WallpaperManager.getInstance(context)
                             try {
@@ -109,8 +111,13 @@ fun ImageDetailsScreen(
                                     true,
                                     WallpaperManager.FLAG_LOCK
                                 )
-                                Toast.makeText(context, "Lockscreen wallpaper changed", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Lockscreen wallpaper changed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } catch (e: Exception) {
+                                TODO("Handle wallpaper errors")
                                 e.printStackTrace()
                             }
                         }
