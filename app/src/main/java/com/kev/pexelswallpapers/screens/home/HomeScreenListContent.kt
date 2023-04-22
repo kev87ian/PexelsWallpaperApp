@@ -56,7 +56,7 @@ fun HomeScreenListContent(
     LazyColumn(
         modifier = Modifier.fillMaxSize()
             .padding(top = 16.dp),
-        contentPadding = PaddingValues(all = 12.dp)
+        contentPadding = PaddingValues(all = 8.dp)
     ) {
         items(
             items = items,
@@ -158,7 +158,7 @@ fun PhotoItem(
 ) {
     Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(8.dp)
             .fillMaxWidth()
             .height(400.dp),
         shape = RoundedCornerShape(12.dp),

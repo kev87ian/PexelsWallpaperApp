@@ -1,6 +1,10 @@
 package com.kev.pexelswallpapers.screens.details
 
+import android.app.WallpaperManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -24,27 +29,35 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.kev.pexelswallpapers.model.photo_details.PhotoDetailsResponse
 import com.kev.pexelswallpapers.util.ImageDownloader
 import com.kev.pexelswallpapers.util.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun ImageDetailsScreen(
     photo: PhotoDetailsResponse
 ) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+
     Column(
         modifier = Modifier.fillMaxWidth().fillMaxHeight()
     ) {
         Box(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
-            val context = LocalContext.current
             AsyncImage(
                 model = ImageRequest.Builder(context)
                     .data(photo.src.portrait)
                     .crossfade(true)
                     .build(),
                 contentScale = ContentScale.FillBounds,
+
                 contentDescription = photo.alt,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -70,8 +83,39 @@ fun ImageDetailsScreen(
                     }
 
                     Button(onClick = {
+                        coroutineScope.launch(Dispatchers.IO) {
+                            val bitmap = getBitmapFromUrl(context, photo.src.portrait)
+                            val wallpaperManager = WallpaperManager.getInstance(context)
+                            try {
+                                wallpaperManager.setBitmap(bitmap)
+                                Toast.makeText(context, "Wallpaper changed", Toast.LENGTH_SHORT)
+                                    .show()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
                     }) {
-                        Text(text = "Set Image as Wallpaper")
+                        Text(text = "Set as Wallpaper")
+                    }
+
+                    Button(onClick = {
+                        coroutineScope.launch(Dispatchers.IO) {
+                            val bitmap = getBitmapFromUrl(context, photo.src.portrait)
+                            val wallpaperManager = WallpaperManager.getInstance(context)
+                            try {
+                                wallpaperManager.setBitmap(
+                                    bitmap,
+                                    null,
+                                    true,
+                                    WallpaperManager.FLAG_LOCK
+                                )
+                                Toast.makeText(context, "Lockscreen wallpaper changed", Toast.LENGTH_SHORT).show()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }) {
+                        Text(text = "Set as Lockscreen")
                     }
                 }
             }
@@ -117,7 +161,7 @@ fun PhotoDetailsScreen(
 
                 Text(text = (state.value as Resource.Error<PhotoDetailsResponse>).errorMessage)
                 Button(onClick = {
-                    viewModel.getPhotoDetails(1)
+                    viewModel.getPhotoDetails(photoId)
                 }) {
                     Text(text = "Retry")
                 }
@@ -128,8 +172,17 @@ fun PhotoDetailsScreen(
             val photo = (state.value as Resource.Success<PhotoDetailsResponse>).data
             ImageDetailsScreen(photo = photo)
         }
-
     }
+}
+
+suspend fun getBitmapFromUrl(context: Context, url: String): Bitmap {
+    val loading = ImageLoader(context)
+    val request = ImageRequest.Builder(context)
+        .data(url)
+        .build()
+
+    val result = (loading.execute(request) as SuccessResult).drawable
+    return (result as BitmapDrawable).bitmap
 }
 
 fun downloadImage(context: Context, imageUrl: String) {
