@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -42,10 +43,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kev.pexelswallpapers.R
 import com.kev.pexelswallpapers.model.photos_list.Photo
+import com.kev.pexelswallpapers.navigation.Screen
 
 @Composable
 fun HomeScreenListContent(
-    items: LazyPagingItems<Photo>
+    items: LazyPagingItems<Photo>,
+    navController: NavController
 ) {
     val photosViewModel = hiltViewModel<PhotosViewModel>()
     val photos = photosViewModel.getCuratedImages().collectAsLazyPagingItems()
@@ -61,7 +64,7 @@ fun HomeScreenListContent(
                 photo.id
             }
         ) { photo ->
-            photo?.let { PhotoItem(photo = photo) }
+            photo?.let { PhotoItem(photo, navController) }
         }
 
         val loadState = photos.loadState.mediator
@@ -95,7 +98,8 @@ fun HomeScreenListContent(
             }
 
             if (loadState?.refresh is LoadState.Error || loadState?.append is LoadState.Error) {
-                val isPaginatingError = (loadState.append is LoadState.Error) || photos.itemCount > 1
+                val isPaginatingError =
+                    (loadState.append is LoadState.Error) || photos.itemCount > 1
                 val error = if (loadState.append is LoadState.Error) {
                     (loadState.append as LoadState.Error).error
                 } else {
@@ -149,7 +153,8 @@ fun HomeScreenListContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoItem(
-    photo: Photo
+    photo: Photo,
+    navController: NavController
 ) {
     Card(
         modifier = Modifier
@@ -158,6 +163,7 @@ fun PhotoItem(
             .height(400.dp),
         shape = RoundedCornerShape(12.dp),
         onClick = {
+            navController.navigate(Screen.Details.wihArgs(photo.id))
         }
     ) {
         Box {

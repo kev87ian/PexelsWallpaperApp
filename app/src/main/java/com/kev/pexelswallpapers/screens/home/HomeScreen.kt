@@ -25,7 +25,7 @@ fun HomeScreen(
             })
         },
         content = {
-            HomeScreenListContent(items = photos)
+            HomeScreenListContent(items = photos, navController)
         }
     )
 }

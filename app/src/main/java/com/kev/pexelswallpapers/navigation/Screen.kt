@@ -5,7 +5,7 @@ sealed class Screen(val route: String){
     object Search: Screen("search_screen")
     object Details: Screen("details_screen")
 
-    fun wihArgs(vararg args: String): String {
+    fun wihArgs(vararg args: Int): String {
         return buildString {
             append(route)
             args.forEach { arg ->

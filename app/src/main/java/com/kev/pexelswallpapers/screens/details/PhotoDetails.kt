@@ -1,5 +1,6 @@
 package com.kev.pexelswallpapers.screens.details
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kev.pexelswallpapers.model.photo_details.PhotoDetailsResponse
+import com.kev.pexelswallpapers.util.ImageDownloader
 import com.kev.pexelswallpapers.util.Resource
 
 @Composable
@@ -53,7 +55,7 @@ fun ImageDetailsScreen(
                     modifier = Modifier.padding(horizontal = 12.dp)
                 ) {
                     Button(onClick = {
-                        /* downloadImage(context, imageDetailsResponse.links.download)*/
+                        downloadImage(context, photo.src.large)
                     }) {
                         Text(text = "Download Image")
                     }
@@ -70,10 +72,11 @@ fun ImageDetailsScreen(
 
 @Composable
 fun PhotoDetailsScreen(
-    navController: NavController
+    photoId: Int
 ) {
     val viewModel = hiltViewModel<PhotoDetailsViewModel>()
 
+    viewModel.getPhotoDetails(photoId)
     // setup UI observers
     val state = viewModel.photoDetailsStateFlow.collectAsState()
     when (state.value) {
@@ -119,5 +122,7 @@ fun PhotoDetailsScreen(
     }
 }
 
-fun downloadImage() {
+fun downloadImage(context: Context, imageUrl: String) {
+    val downloader = ImageDownloader(context)
+    downloader.downloadImage(imageUrl)
 }
