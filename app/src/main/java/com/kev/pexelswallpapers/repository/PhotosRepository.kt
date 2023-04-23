@@ -38,10 +38,9 @@ class PhotosRepository @Inject constructor(
 
     suspend fun searchPhoto(photoQuery: String): Resource<PhotoSearchResponse> {
         return try {
-            withContext(Dispatchers.IO) {
-                val response = apiService.searchPhotos(photoQuery)
-                return@withContext Resource.Success(response)
-            }
+           val result = apiService.searchPhotos(photoQuery)
+            return Resource.Success(result)
+
         } catch (e: Exception) {
             e.printStackTrace()
             when (e) {

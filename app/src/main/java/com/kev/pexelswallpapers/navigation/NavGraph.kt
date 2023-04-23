@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.kev.pexelswallpapers.screens.details.PhotoDetailsScreen
 import com.kev.pexelswallpapers.screens.home.HomeScreen
+import com.kev.pexelswallpapers.screens.search.SearchPhotoScreen
 
 @Composable
 fun SetupNavGraph(
@@ -22,6 +23,7 @@ fun SetupNavGraph(
         }
 
         composable(Screen.Search.route) {
+            SearchPhotoScreen(navController = navController)
         }
 
         composable(
