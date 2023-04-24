@@ -134,7 +134,7 @@ fun HomeScreenListContent(
                     Text(
                         modifier = Modifier
                             .padding(8.dp),
-                        text = if (error.localizedMessage.contains("Unable to resolve host")) "Ensure you have an active internet connection" else error.localizedMessage,
+                        text =  error.localizedMessage ?: "Makosa imefanyika",
                         textAlign = TextAlign.Center
                     )
 

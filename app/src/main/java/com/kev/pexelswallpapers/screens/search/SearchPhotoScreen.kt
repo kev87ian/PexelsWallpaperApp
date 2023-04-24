@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -89,16 +91,40 @@ fun SearchPhotoScreen(
                 }
             }
             if (result.data.isNotEmpty()) {
-                LazyColumn() {
-                    items(result.data.size) {
+                LazyVerticalGrid(columns = GridCells.Fixed(2)){
+                    items(result.data.size){
                         result.data.forEach { photo ->
                             SearchPhotoItem(photo = photo, navController = navController)
                         }
                     }
                 }
+                /*LazyColumn {
+                    items(result.data.size) {
+                        result.data.forEach { photo ->
+                            SearchPhotoItem(photo = photo, navController = navController)
+                        }
+                    }
+                }*/
+            }
+            if (result.data.isEmpty() && result.error.isEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(imageVector = Icons.Default.Warning, contentDescription = "Warning Icon")
+                    Text(text = "No result(s) found")
+                }
             }
             if (result.error.isNotEmpty()) {
-
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(imageVector = Icons.Default.Warning, contentDescription = "Warning Icon")
+                    Text(text = result.error)
+                }
             }
         }
     }
@@ -114,7 +140,7 @@ fun SearchPhotoItem(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(400.dp),
+            .height(300.dp),
         shape = RoundedCornerShape(12.dp),
         onClick = {
             navController.navigate(Screen.Details.wihArgs(photo.id))

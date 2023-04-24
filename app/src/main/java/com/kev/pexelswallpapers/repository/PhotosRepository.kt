@@ -1,3 +1,5 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package com.kev.pexelswallpapers.repository
 
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
@@ -5,8 +7,6 @@ import com.kev.pexelswallpapers.model.photo_details.PhotoDetailsResponse
 import com.kev.pexelswallpapers.model.photo_search.PhotoSearchResponse
 import com.kev.pexelswallpapers.util.Resource
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okio.IOException
 import retrofit2.HttpException
 
@@ -30,7 +30,7 @@ class PhotosRepository @Inject constructor(
                 )
 
                 else -> return Resource.Error(
-                    e.localizedMessage ?: "An unknown error occurred. Please retry."
+                    e?.localizedMessage ?: "An unknown error occurred. Please retry."
                 )
             }
         }
@@ -38,9 +38,8 @@ class PhotosRepository @Inject constructor(
 
     suspend fun searchPhoto(photoQuery: String): Resource<PhotoSearchResponse> {
         return try {
-           val result = apiService.searchPhotos(photoQuery)
+            val result = apiService.searchPhotos(photoQuery)
             return Resource.Success(result)
-
         } catch (e: Exception) {
             e.printStackTrace()
             when (e) {
