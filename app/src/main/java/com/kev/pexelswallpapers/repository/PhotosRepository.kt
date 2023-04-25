@@ -30,7 +30,7 @@ class PhotosRepository @Inject constructor(
                 )
 
                 else -> return Resource.Error(
-                    e?.localizedMessage ?: "An unknown error occurred. Please retry."
+                    e.localizedMessage ?: "An unknown error occurred. Please retry."
                 )
             }
         }
