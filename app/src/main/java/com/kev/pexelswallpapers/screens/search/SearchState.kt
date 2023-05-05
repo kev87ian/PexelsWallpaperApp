@@ -1,4 +1,4 @@
-package com.kev.pexelswallpapers.screens
+package com.kev.pexelswallpapers.screens.search
 
 import com.kev.pexelswallpapers.model.photo_search.Photo
 

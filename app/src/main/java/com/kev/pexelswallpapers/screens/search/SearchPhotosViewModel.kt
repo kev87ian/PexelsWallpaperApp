@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kev.pexelswallpapers.repository.PhotosRepository
-import com.kev.pexelswallpapers.screens.SearchState
 import com.kev.pexelswallpapers.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
