@@ -1,10 +1,11 @@
 - An image-browsing application that consumes the [Pexels API](https://www.pexels.com/api/).
-- Download the 
 ## Demo
 
 ![Paginated List](Demo/list.jpg)
 ![Search Images](Demo/jaguar.jpg)
 ![Details Images](Demo/details.jpg)
+
+- Download the [APK](https://github.com/kev87ian/PexelsWallpaperApp/blob/main/Demo/app-debug.apk) to check the app out.
 
 ## Features
 - On the first screen, the application fetches images from Pexels API, paginates them and caches
