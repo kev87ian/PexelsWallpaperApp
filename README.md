@@ -1,12 +1,10 @@
 - An image-browsing application that consumes the [Pexels API](https://www.pexels.com/api/).
-
+- Download the 
 ## Demo
 
 ![Paginated List](Demo/list.jpg)
 ![Search Images](Demo/jaguar.jpg)
 ![Details Images](Demo/details.jpg)
-
-
 
 ## Features
 - On the first screen, the application fetches images from Pexels API, paginates them and caches
@@ -15,6 +13,7 @@
   wallpaper, or as the lockscreen.
 - There's also a search feature, which queries the Pexels API.
 - Side note - I used lazy columns because lazy vertical grids were really laggy, and I somehow couldn't create a release build due to ProGuard errors
+
 ## Get Started
 - Clone the repository, then open the project using Android Studio.
 - Create your own [Pexels API Key](https://www.pexels.com/api/).
@@ -63,7 +62,6 @@
 - [Coil](https://coil-kt.github.io/coil/compose/)- An image loading library for Android backed by
   Kotlin Coroutines.
 - [Mockito](https://site.mockito.org/) A mocking framework that is used for unit testing
-
 
 ### ©️ License
 
