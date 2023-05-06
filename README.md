@@ -19,7 +19,7 @@
 - Clone the repository, then open the project using Android Studio.
 - Create your own [Pexels API Key](https://www.pexels.com/api/).
 - In your local.properties file, declare the API_KEY in the format of "API_KEY: thisistheapikey" without the quotes. Remember to add the file to your .gitignore
-- Then rebuild the projects
+- Then rebuild the project.
 ## Technology Stack
 
 - [Kotlin](https://developer.android.com/kotlin) - Kotlin is a programming language that can run on
