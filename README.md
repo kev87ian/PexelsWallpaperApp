@@ -1,9 +1,6 @@
 - An image-browsing application that consumes the [Pexels API](https://www.pexels.com/api/).
 ## Demo
-
-![Paginated List](Demo/list.jpg)
-![Search Images](Demo/jaguar.jpg)
-![Details Images](Demo/details.jpg)
+<img src="./Demo/list.jpg" width="300" alt="Paginated List"/>.<img src="./Demo/jaguar.jpg" width="300" alt="Search Images"/>.<img src="./Demo/details.jpg" width="300" alt="Details Images">
 
 - Download the [APK](https://github.com/kev87ian/PexelsWallpaperApp/blob/main/Demo/app-debug.apk) to check the app out.
 
