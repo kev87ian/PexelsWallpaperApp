@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -92,11 +92,17 @@ fun SearchPhotoScreen(
                 }
             }
             if (result.data.isNotEmpty()) {
-                LazyColumn {
+               /* LazyColumn {
                     items(result.data.size) {
                         result.data.forEach { photo ->
                             SearchPhotoItem(photo = photo, navController = navController)
                         }
+                    }
+                }*/
+
+                LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                    items(result.data) {
+                        SearchPhotoItem(photo = it, navController = navController)
                     }
                 }
             }

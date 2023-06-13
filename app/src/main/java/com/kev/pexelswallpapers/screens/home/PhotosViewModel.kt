@@ -1,10 +1,12 @@
 package com.kev.pexelswallpapers.screens.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.kev.pexelswallpapers.data.local.PhotosDatabase
 import com.kev.pexelswallpapers.data.paging.PhotosRemoteMediator
 import com.kev.pexelswallpapers.data.remote.PhotosApiService
@@ -34,5 +36,5 @@ class PhotosViewModel @Inject constructor(
                 apiService = apiService,
                 photosDatabase = database
             )
-        ).flow
+        ).flow.cachedIn(viewModelScope)
 }
