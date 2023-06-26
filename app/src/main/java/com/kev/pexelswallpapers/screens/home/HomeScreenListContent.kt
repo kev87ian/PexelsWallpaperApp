@@ -1,16 +1,23 @@
 package com.kev.pexelswallpapers.screens.home
 
+import android.annotation.SuppressLint
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Warning
@@ -38,7 +45,6 @@ import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kev.pexelswallpapers.R
@@ -53,7 +59,8 @@ fun HomeScreenListContent(
     val photosViewModel = hiltViewModel<PhotosViewModel>()
     val photos = photosViewModel.getCuratedImages().collectAsLazyPagingItems()
 
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2), // Specify the number of columns
         modifier = Modifier.fillMaxSize()
             .padding(top = 16.dp),
         contentPadding = PaddingValues(all = 8.dp)
@@ -61,7 +68,7 @@ fun HomeScreenListContent(
         items(
             items = items,
             key = { photo ->
-                photo.id
+                photo.id // Use PagingPlaceholderKey as the key for null items
             }
         ) { photo ->
             photo?.let { PhotoItem(photo, navController) }
@@ -69,40 +76,40 @@ fun HomeScreenListContent(
 
         val loadState = photos.loadState.mediator
         item {
-            if (loadState?.refresh == LoadState.Loading) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+            if (loadState?.refresh is LoadState.Loading) {
+                Box(
+                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 20.dp),
-                        text = "Fetching Data"
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(vertical = 20.dp)
+                    ) {
+                        Text(
+                            text = "Fetching Data",
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
 
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 10.dp)
-                    )
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(top = 10.dp)
+                        )
+                    }
                 }
             }
 
             if (loadState?.append == LoadState.Loading) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 12.dp)
+                        modifier = Modifier.padding(vertical = 12.dp)
                     )
                 }
             }
-
             if (loadState?.refresh is LoadState.Error || loadState?.append is LoadState.Error) {
                 val isPaginatingError =
                     (loadState.append is LoadState.Error) || photos.itemCount > 1
@@ -115,7 +122,7 @@ fun HomeScreenListContent(
                 val modifier = if (isPaginatingError) {
                     Modifier.padding(8.dp)
                 } else {
-                    Modifier.fillParentMaxSize()
+                    Modifier.fillMaxSize()
                 }
                 Column(
                     modifier = modifier,
@@ -124,17 +131,15 @@ fun HomeScreenListContent(
                 ) {
                     if (!isPaginatingError) {
                         Icon(
-                            modifier = Modifier
-                                .size(64.dp),
+                            modifier = Modifier.size(64.dp),
                             imageVector = Icons.Rounded.Warning,
                             contentDescription = null
                         )
                     }
 
                     Text(
-                        modifier = Modifier
-                            .padding(8.dp),
-                        text =  error.localizedMessage ?: "Makosa imefanyika",
+                        modifier = Modifier.padding(8.dp),
+                        text = error.localizedMessage ?: "Makosa imefanyika",
                         textAlign = TextAlign.Center
                     )
 
@@ -166,7 +171,7 @@ fun PhotoItem(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(400.dp),
+            .height(300.dp),
         shape = RoundedCornerShape(12.dp),
         onClick = {
             navController.navigate(Screen.Details.wihArgs(photo.id))
@@ -213,5 +218,52 @@ fun PhotoItem(
                 )
             }
         }
+    }
+}
+
+fun <T : Any> LazyGridScope.items(
+    items: LazyPagingItems<T>,
+    key: ((item: T) -> Any)? = null,
+    itemContent: @Composable LazyGridItemScope.(item: T?) -> Unit
+) {
+    items(
+        count = items.itemCount,
+        key = if (key == null) {
+            null
+        } else {
+            { index ->
+                val item = items.peek(index)
+                if (item == null) {
+                    PagingPlaceholderKey(index)
+                } else {
+                    key(item)
+                }
+            }
+        }
+    ) { index ->
+        itemContent(items[index])
+    }
+}
+
+@SuppressLint("BanParcelableUsage")
+private data class PagingPlaceholderKey(private val index: Int) : Parcelable {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(index)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object {
+        @Suppress("unused")
+        @JvmField
+        val CREATOR: Parcelable.Creator<PagingPlaceholderKey> =
+            object : Parcelable.Creator<PagingPlaceholderKey> {
+                override fun createFromParcel(parcel: Parcel) =
+                    PagingPlaceholderKey(parcel.readInt())
+
+                override fun newArray(size: Int) = arrayOfNulls<PagingPlaceholderKey?>(size)
+            }
     }
 }

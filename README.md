@@ -2,7 +2,8 @@
 ## Demo
 <img src="./Demo/list.jpg" width="300" alt="Paginated List"/>.<img src="./Demo/jaguar.jpg" width="300" alt="Search Images"/>.<img src="./Demo/details.jpg" width="300" alt="Details Images">
 
-- Download the [APK](https://github.com/kev87ian/PexelsWallpaperApp/blob/main/Demo/app-debug.apk) to check the app out.
+## Live Demo
+- Try the [App](https://appetize.io/app/cckbhhpzxgmmiz5w42nqrb5yrq?device=pixel7&osVersion=13.0&scale=75) out.
 
 ## Features
 - On the first screen, the application fetches images from Pexels API, paginates them and caches
