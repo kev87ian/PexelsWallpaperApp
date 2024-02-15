@@ -58,104 +58,35 @@ fun HomeScreenListContent(
 ) {
     val photosViewModel = hiltViewModel<PhotosViewModel>()
     val photos = photosViewModel.getCuratedImages().collectAsLazyPagingItems()
+    val loadState = photos.loadState.mediator
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2), // Specify the number of columns
-        modifier = Modifier.fillMaxSize()
-            .padding(top = 16.dp),
-        contentPadding = PaddingValues(all = 8.dp)
-    ) {
-        items(
-            items = items,
-            key = { photo ->
-                photo.id // Use PagingPlaceholderKey as the key for null items
-            }
-        ) { photo ->
-            photo?.let { PhotoItem(photo, navController) }
+    // Handle loading state separately
+    if (loadState?.refresh is LoadState.Loading || loadState?.append is LoadState.Loading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(16.dp)
+            )
         }
-
-        val loadState = photos.loadState.mediator
-        item {
-            if (loadState?.refresh is LoadState.Loading) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(vertical = 20.dp)
-                    ) {
-                        Text(
-                            text = "Fetching Data",
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(top = 10.dp)
-                        )
-                    }
+    } else {
+        // Display content when not in loading state
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize()
+                .padding(top = 16.dp),
+            contentPadding = PaddingValues(all = 8.dp)
+        ) {
+            items(
+                items = items,
+                key = { photo ->
+                    photo.id
                 }
-            }
-
-            if (loadState?.append == LoadState.Loading) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(vertical = 12.dp)
-                    )
-                }
-            }
-            if (loadState?.refresh is LoadState.Error || loadState?.append is LoadState.Error) {
-                val isPaginatingError =
-                    (loadState.append is LoadState.Error) || photos.itemCount > 1
-                val error = if (loadState.append is LoadState.Error) {
-                    (loadState.append as LoadState.Error).error
-                } else {
-                    (loadState.refresh as LoadState.Error).error
-                }
-
-                val modifier = if (isPaginatingError) {
-                    Modifier.padding(8.dp)
-                } else {
-                    Modifier.fillMaxSize()
-                }
-                Column(
-                    modifier = modifier,
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    if (!isPaginatingError) {
-                        Icon(
-                            modifier = Modifier.size(64.dp),
-                            imageVector = Icons.Rounded.Warning,
-                            contentDescription = null
-                        )
-                    }
-
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = error.localizedMessage ?: "Makosa imefanyika",
-                        textAlign = TextAlign.Center
-                    )
-
-                    Button(
-                        onClick = {
-                            photos.refresh()
-                        },
-                        content = {
-                            Text(text = "Refresh")
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = Color.White
-                        )
-                    )
-                }
+            ) { photo ->
+                photo?.let { PhotoItem(photo, navController) }
             }
         }
     }
